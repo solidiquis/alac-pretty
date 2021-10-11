@@ -39,3 +39,6 @@ Lastly, your `alacritty.yml` file's `scheme` and `colors` settings will need to 
 
 ## Acknowledgements
 Thanks to [eendroroy](https://github.com/eendroroy) for putting together all the colorschemes which I used to put together [this bad boy](https://github.com/solidiquis/alac-pretty/blob/master/assets/sample_alacritty_color_schemes.yml).
+
+## Author notes
+I made [another version of this project](https://github.com/solidiquis/alacpretty) in Go but wasn't very happy with it. Decided to make a skinnier version in Rust for fun that only handled colorschemes and didn't leverage any Terminal UI libs.
