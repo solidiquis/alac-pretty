@@ -3,7 +3,7 @@
 
 https://user-images.githubusercontent.com/45523555/136723881-ee7b14ff-7242-4a8f-84c3-0908f7380f28.mp4
 
-If you're like me in that you constantly need to change the colors of your dev environment because visual stagnation really bothers you, then get on [Alacritty](https://github.com/alacritty/alacritty) and download this BlAZiNgLy FAsT color-scheme shuffler.
+If you're like me in that you constantly need to change the colors of your dev environment because visual stagnation really bothers you, then get on [Alacritty](https://github.com/alacritty/alacritty) and download this BlAZiNgLy FAsT color-scheme shuffler. This only works for POSIX-compliant systems... sorry Windows peeps.
 
 ## Installation
 Unfortunately I am too lazy to do releases and compile this for various systems so you'll have to do this manually for now.
