@@ -1,6 +1,8 @@
 # Alac-pretty
 ---
-<img height="auto" width="95%" src="https://github.com/solidiquis/solidiquis/blob/master/assets/alac-pretty.gif?raw=true">
+
+https://user-images.githubusercontent.com/45523555/136723881-ee7b14ff-7242-4a8f-84c3-0908f7380f28.mp4
+
 If you're like me in that you constantly need to change the colors of your dev environment because visual stagnation really bothers you, then get on [Alacritty](https://github.com/alacritty/alacritty) and download this BlAZiNgLy FAsT color-scheme shuffler.
 
 ## Installation
@@ -34,7 +36,6 @@ Lastly, your `alacritty.yml` file's `scheme` and `colors` settings will need to 
 - Better test coverage.
 - Incorporate Github workflows + do releases
 - Handle `SIGWINCH` signal.
-- Make a better GIF (anyone know how to make higher quality GIFS?)
 
 ## Acknowledgements
 Thanks to [eendroroy](https://github.com/eendroroy) for putting together all the colorschemes which I used to put together [this bad boy](https://github.com/solidiquis/alac-pretty/blob/master/assets/sample_alacritty_color_schemes.yml).
