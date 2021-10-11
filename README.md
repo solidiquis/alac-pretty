@@ -8,9 +8,8 @@ If you're like me in that you constantly need to change the colors of your dev e
 ## Installation
 Unfortunately I am too lazy to do releases and compile this for various systems so you'll have to do this manually for now.
 1. Make sure you have [Rust and its toolchain](https://www.rust-lang.org/tools/install) installed.
-2. Git clone this repo.
-3. `$ cargo build --release`
-4. Stick the resultant binary somewhere in your path.
+2. `$ cargo install --git https://github.com/solidiquis/alac-pretty`
+3. Stick the resultant binary somewhere in your path.
 
 ## Essential pre-requisites before using
 The official Alacritty docs requires that you have your Alacritty config at one of the following locations:
