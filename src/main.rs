@@ -5,6 +5,7 @@ use signal_hook::{
         exfiltrator::origin::WithOrigin
     }
 };
+use std::env;
 use std::io::{Stdout, stdout};
 use std::thread;
 
@@ -13,6 +14,44 @@ mod parser;
 mod ui;
 
 mod tests;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() > 1 {
+        let new_scheme = &args[1];
+        set_scheme(new_scheme)?;
+        return Ok(())
+    }
+
+    ioctl::unecho_noncanonical_cbreak_min_1()?;
+
+    let signals = vec![SIGWINCH, SIGINT];
+    let mut sig_info = SignalsInfo::<WithOrigin>::new(&signals)?;
+
+    let mut stdout = stdout();
+
+    ui::ansi_execute(ui::CURSOR_INVISIBLE, &mut stdout);
+
+    // Clearing screen and setting cursor home is required
+    // during debugging otherwise Rust compiler warnings gunk
+    // things up.
+    if cfg!(debug_assertions) {
+        ui::ansi_execute(ui::SCREEN_CLEAR, &mut stdout);
+        ui::ansi_execute(ui::CURSOR_HOME, &mut stdout);
+    }
+
+    thread::spawn(move || { event_loop() });
+
+    for info in &mut sig_info {
+        match info.signal {
+            SIGWINCH => (), // TODO
+            SIGINT | _ => restore_terminal_and_exit(&mut stdout)
+        }
+    }
+
+    Ok(())
+}
 
 fn event_loop() {
     let (mut alacritty_conf, color_schemes) = match parser::find_alacritty_configs() {
@@ -52,37 +91,19 @@ fn event_loop() {
     });
 }
 
+fn set_scheme(selection: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let (mut alacritty_conf, color_schemes) = parser::find_alacritty_configs()?;
+
+    let new_scheme = color_schemes.get_scheme(selection)?;
+
+    alacritty_conf.set_scheme(&new_scheme);
+    alacritty_conf.apply_scheme();
+
+    Ok(())
+}
+
 fn restore_terminal_and_exit(stdout: &mut Stdout) {
     ui::ansi_execute(ui::CURSOR_VISIBLE, stdout);
     std::process::exit(1)
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    ioctl::unecho_noncanonical_cbreak_min_1()?;
-
-    let signals = vec![SIGWINCH, SIGINT];
-    let mut sig_info = SignalsInfo::<WithOrigin>::new(&signals)?;
-
-    let mut stdout = stdout();
-
-    ui::ansi_execute(ui::CURSOR_INVISIBLE, &mut stdout);
-
-    // Clearing screen and setting cursor home is required
-    // during debugging otherwise Rust compiler warnings gunk
-    // things up.
-    if cfg!(debug_assertions) {
-        ui::ansi_execute(ui::SCREEN_CLEAR, &mut stdout);
-        ui::ansi_execute(ui::CURSOR_HOME, &mut stdout);
-    }
-
-    thread::spawn(move || { event_loop() });
-
-    for info in &mut sig_info {
-        match info.signal {
-            SIGWINCH => (), // TODO
-            SIGINT | _ => restore_terminal_and_exit(&mut stdout)
-        }
-    }
-
-    Ok(())
-}
