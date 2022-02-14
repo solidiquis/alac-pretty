@@ -53,7 +53,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn event_loop() {
+fn event_loop() -> Result<(), ui::Error> {
     let (mut alacritty_conf, color_schemes) = match parser::find_alacritty_configs() {
         Ok(s) => s,
         Err(e) => panic!("{}", e)
@@ -85,10 +85,12 @@ fn event_loop() {
         };
 
         alacritty_conf.set_scheme(&new_scheme);
-        alacritty_conf.apply_scheme();
+        alacritty_conf.apply_scheme().unwrap();
 
         Ok(())
-    });
+    })?;
+
+    Ok(())
 }
 
 fn set_scheme(selection: &str) -> Result<(), Box<dyn std::error::Error>> {
@@ -97,7 +99,7 @@ fn set_scheme(selection: &str) -> Result<(), Box<dyn std::error::Error>> {
     let new_scheme = color_schemes.get_scheme(selection)?;
 
     alacritty_conf.set_scheme(&new_scheme);
-    alacritty_conf.apply_scheme();
+    alacritty_conf.apply_scheme()?;
 
     Ok(())
 }

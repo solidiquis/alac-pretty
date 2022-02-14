@@ -116,8 +116,6 @@ impl ScrollableList {
 
             bytes_buffer = [0; 3]
         }
-
-        Ok(())
     }
 
     fn act_on_selection<F>(&self, func: &mut F) -> Result<(), Error> where
